@@ -813,15 +813,16 @@ pc.createSphere = function (device, opts) {
  * @description Creates a procedural plane-shaped mesh.
  * The size and tesselation properties of the plane can be controlled via function parameters. By
  * default, the function will create a plane centred on the object space origin with a width and
- * length of 1.0 and 5 segments in either axis (50 triangles). The normal vector of the plane is aligned
+ * length of 1.0 and 5 segments in either axis (50 triangles). By default, the normal vector of the plane is aligned
  * along the positive Y axis.<br />
  * Note that the plane is created with UVs in the range of 0 to 1. Additionally, tangent information
  * is generated into the vertex buffer of the plane's mesh.<br />
  * @param {pc.GraphicsDevice} device The graphics device used to manage the mesh.
  * @param {Object} opts An object that specifies optional inputs for the function as follows:
- * @param {pc.Vec2} opts.halfExtents The half dimensions of the plane in the X and Z axes (defaults to [0.5, 0.5]).
- * @param {Number} opts.widthSegments The number of divisions along the X axis of the plane (defaults to 5).
- * @param {Number} opts.lengthSegments The number of divisions along the Z axis of the plane (defaults to 5).
+ * @param {pc.Vec2} opts.halfExtents The half dimensions of the plane (defaults to [0.5, 0.5]).
+ * @param {Number} opts.widthSegments The number of divisions along the width of the plane (defaults to 5).
+ * @param {Number} opts.lengthSegments The number of divisions along the length of the plane (defaults to 5).
+ * @param {Number} opts.axis The local space axis with which the plane's normal vector is aligned. 0 for X, 1 for Y and 2 for Z. Defaults to 1 (Y-axis).
  * @returns {pc.Mesh} A new plane-shaped mesh.
  */
 pc.createPlane = function (device, opts) {
@@ -830,36 +831,72 @@ pc.createPlane = function (device, opts) {
     var ws = opts && opts.widthSegments !== undefined ? opts.widthSegments : 5;
     var ls = opts && opts.lengthSegments !== undefined ? opts.lengthSegments : 5;
     var calculateTangents = opts && opts.calculateTangents !== undefined ? opts.calculateTangents : false;
+    var axis = opts && opts.axis !== undefined ? opts.axis : 1;
 
     // Variable declarations
-    var i, j;
+    var i, j, a, b;
     var x, y, z, u, v;
     var positions = [];
     var normals = [];
     var uvs = [];
     var indices = [];
 
+    var maskAX = 0, maskBX = 0;
+    var maskAY = 0, maskBY = 0;
+    var maskAZ = 0, maskBZ = 0;
+    var invertU = 0, invertV = 0;
+    var normalX = 0, normalY = 0, normalZ = 0;
+
+    switch (axis) {
+        case 0:
+            normalX = 1;
+            maskAY =  1;
+            maskBZ = -1;
+            break;
+        case 1:
+            normalY = 1;
+            maskAX =  1;
+            maskBZ = -1;
+            break;
+        case 2:
+            normalZ = 1;
+            maskAX = -1;
+            maskBY =  1;
+            invertU = 1;
+            break;
+        default:
+            throw new Error("Invalid axis: " + axis);
+    }
+
     // Generate plane as follows (assigned UVs denoted at corners):
     // (0,1)x---------x(1,1)
-    //      |         |
-    //      |         |
-    //      |    O--X |length
+    //      |    b    |
     //      |    |    |
-    //      |    Z    |
+    //      |    O--a | length
+    //      |         |
+    //      |         |
     // (0,0)x---------x(1,0)
-    // width
+    //         width
     var vcounter = 0;
 
     for (i = 0; i <= ws; i++) {
         for (j = 0; j <= ls; j++) {
-            x = -he.x + 2.0 * he.x * i / ws;
-            y = 0.0;
-            z = -(-he.y + 2.0 * he.y * j / ls);
+
+            a = -he.x + 2.0 * he.x * i / ws;
+            b = -he.y + 2.0 * he.y * j / ls;
+
+            x = a * maskAX + b * maskBX;
+            y = a * maskAY + b * maskBY;
+            z = a * maskAZ + b * maskBZ;
+
             u = i / ws;
             v = j / ls;
 
+            u = u + (1 - 2 * u) * invertU;
+            v = v + (1 - 2 * v) * invertV;
+
             positions.push(x, y, z);
-            normals.push(0.0, 1.0, 0.0);
+            normals.push(normalX, normalY, normalZ);
             uvs.push(u, v);
 
             if ((i < ws) && (j < ls)) {
