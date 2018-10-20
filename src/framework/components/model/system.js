@@ -29,6 +29,7 @@ Object.assign(pc, function () {
         this.cylinder = null;
         this.plane = null;
         this.sphere = null;
+        this.quad = null;
 
         this.defaultMaterial = new pc.StandardMaterial();
 

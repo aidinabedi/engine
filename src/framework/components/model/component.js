@@ -533,6 +533,18 @@ Object.assign(pc, function () {
                         mesh = system.sphere;
                         this._area = { x: Math.PI, y: Math.PI, z: Math.PI, uv: 1 };
                         break;
+                    case 'quad':
+                        if (!system.quad) {
+                            system.quad = pc.createPlane(gd, {
+                                halfExtents: new pc.Vec2(0.5, 0.5),
+                                widthSegments: 1,
+                                lengthSegments: 1,
+                                axis: 2
+                            });
+                        }
+                        mesh = system.quad;
+                        this._area = { x: 0, y: 0, z: 1, uv: 1 };
+                        break;
                     default:
                         throw new Error("Invalid model type: " + value);
                 }
