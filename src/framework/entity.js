@@ -153,9 +153,9 @@ Object.assign(pc, function () {
     /**
      * @function
      * @name pc.Entity#getComponent
-     * @description Get a component from the Entity.
-     * @param {String} type The name of the component type.
-     * @returns {pc.Component} The component of specified type if the entity has one, undefined if it doesn't.
+     * @description Get a component of specified type from the entity.
+     * @param {String} type The name of the component type to retrieve.
+     * @returns {pc.Component} A component of specified type if the entity has one, undefined if it doesn't.
      * @example
      * var entity = new pc.Entity();
      * entity.addComponent("light"); // add new light component
@@ -165,6 +165,23 @@ Object.assign(pc, function () {
     Entity.prototype.getComponent = function (type) {
         var components = this.c;
         return components[type];
+    };
+
+    /**
+     * @function
+     * @name pc.Entity#findComponent
+     * @description Search the graph node and all of its descendants for the first component of specified type.
+     * @param {String} type The name of the component type to retrieve.
+     * @returns {pc.Component} A component of specified type if the entity or any of its descendants has one, undefined if none found.
+     * @example
+     * var light = entity.getComponentInDescendants("light"); // get a light component in the descendant tree (including this entity)
+     */
+    Entity.prototype.findComponent = function (type) {
+        var found = this.findOne(function (node) {
+            var components = node.c;
+            return components && components[type];
+        });
+        return found && found.getComponent(type);
     };
 
     /**
