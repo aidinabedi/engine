@@ -178,8 +178,7 @@ Object.assign(pc, function () {
      */
     Entity.prototype.findComponent = function (type) {
         var entity = this.findOne(function (node) {
-            var getComponent = node.getComponent;
-            return getComponent && getComponent(type);
+            return node.getComponent && node.getComponent(type);
         });
         return entity && entity.getComponent(type);
     };
@@ -195,8 +194,7 @@ Object.assign(pc, function () {
      */
     Entity.prototype.findComponents = function (type) {
         var entities = this.find(function (node) {
-            var getComponent = node.getComponent;
-            return getComponent && getComponent(type);
+            return node.getComponent && node.getComponent(type);
         });
         return entities.map(function (entity) {
             return entity.getComponent(type);
