@@ -599,7 +599,7 @@ Object.assign(pc, function () {
          * @function
          * @name pc.GraphNode#getAncestors
          * @description Get all of the ancestors of this graph node.
-         * @returns {pc.GraphNode[]} The ancestor array of this node.
+         * @returns {pc.GraphNode[]} The ancestor chain of this node as an array.
          * @example
          * var ancestors = this.entity.getAncestors();
          * for (i = 0; i < ancestors.length; i++) {
@@ -639,7 +639,7 @@ Object.assign(pc, function () {
          * @function
          * @name pc.GraphNode#getDescendants
          * @description Get all of the descendants of this graph node.
-         * @returns {pc.GraphNode[]} The descendant array of this node.
+         * @returns {pc.GraphNode[]} The descendant tree of this node as an array.
          * @example
          * var descendants = this.entity.getDescendants();
          * for (i = 0; i < descendants.length; i++) {
