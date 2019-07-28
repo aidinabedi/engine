@@ -170,18 +170,37 @@ Object.assign(pc, function () {
     /**
      * @function
      * @name pc.Entity#findComponent
-     * @description Search the graph node and all of its descendants for the first component of specified type.
+     * @description Search the entity and all of its descendants for the first component of specified type.
      * @param {String} type The name of the component type to retrieve.
-     * @returns {pc.Component} A component of specified type if the entity or any of its descendants has one, undefined if none found.
+     * @returns {pc.Component} A component of specified type, if the entity or any of its descendants has one, otherwise undefined.
      * @example
-     * var light = entity.getComponentInDescendants("light"); // get a light component in the descendant tree (including this entity)
+     * var light = entity.findComponent("light"); // get a light component in the heirachy tree that starts with this entity
      */
     Entity.prototype.findComponent = function (type) {
-        var found = this.findOne(function (node) {
-            var components = node.c;
-            return components && components[type];
+        var entity = this.findOne(function (node) {
+            var getComponent = node.getComponent;
+            return getComponent && getComponent(type);
         });
-        return found && found.getComponent(type);
+        return entity && entity.getComponent(type);
+    };
+
+    /**
+     * @function
+     * @name pc.Entity#findComponents
+     * @description Search the entity and all of its descendants for all components of specified type.
+     * @param {String} type The name of the component type to retrieve.
+     * @returns {pc.Component} All components of specified type in the entity or any of its descendants. Returns empty array if none found.
+     * @example
+     * var lights = entity.findComponents("light"); // get all light components in the heirachy tree that starts with this entity
+     */
+    Entity.prototype.findComponents = function (type) {
+        var entities = this.find(function (node) {
+            var getComponent = node.getComponent;
+            return getComponent && getComponent(type);
+        });
+        return entities.map(function (entity) {
+            return entity.getComponent(type);
+        });
     };
 
     /**
