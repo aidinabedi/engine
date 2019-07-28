@@ -614,6 +614,28 @@ Object.assign(pc, function () {
 
         /**
          * @function
+         * @name pc.GraphNode#getDescendants
+         * @description Get all of the descendants of this graph node.
+         * @returns {pc.GraphNode[]} The descendant array of this node.
+         * @example
+         * var descendants = this.entity.getDescendants();
+         * for (i = 0; i < descendants.length; i++) {
+         *     console.log(descendants[i]);
+         * }
+         */
+        getDescendants: function() {   
+            var descendants = [];
+            
+            var children = this._children;
+            for (var i = 0; i < children.length; i++) {
+                children[i].forEach(descendants.push, descendants);
+            }
+
+            return descendants;
+        },
+
+        /**
+         * @function
          * @name pc.GraphNode#getEulerAngles
          * @description Get the world space rotation for the specified GraphNode in Euler angle
          * form. The order of the returned Euler angles is XYZ. The value returned by this function
