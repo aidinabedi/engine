@@ -596,6 +596,29 @@ Object.assign(pc, function () {
         },
 
         /**
+         * @function
+         * @name pc.GraphNode#getAncestors
+         * @description Get all of the ancestors of this graph node.
+         * @returns {pc.GraphNode[]} The ancestor array of this node.
+         * @example
+         * var ancestors = this.entity.getAncestors();
+         * for (i = 0; i < ancestors.length; i++) {
+         *     console.log(ancestors[i]);
+         * }
+         */
+        getAncestors: function() {   
+            var ancestors = [];
+
+            var parent = this._parent;
+            while (parent) {
+                ancestors.push(parent);
+                parent = parent._parent;
+            }
+
+            return ancestors;
+        },
+
+        /**
          * @private
          * @deprecated
          * @function
