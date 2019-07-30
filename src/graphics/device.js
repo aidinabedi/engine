@@ -884,7 +884,7 @@ Object.assign(pc, function () {
 
             var grabPassTexture = new pc.Texture(this, {
                 format: pc.PIXELFORMAT_R8_G8_B8_A8,
-                autoMipmap: false
+                mipmaps: false
             });
 
             grabPassTexture.minFilter = pc.FILTER_LINEAR;
@@ -999,6 +999,16 @@ Object.assign(pc, function () {
                     break;
             }
         },
+
+        copyFrameBuffer: function (dstTexture, face, mipLevel) {
+            var gl = this.gl;
+
+            var target = dstTexture._cubemap ? gl.TEXTURE_CUBE_MAP_POSITIVE_X + face : gl.TEXTURE_2D;
+            var format = dstTexture._glFormat;
+            var level = mipLevel || 0;
+
+            gl.copyTexImage2D(target, level, format, 0, 0, width, height, 0);
+        }
 
         copyRenderTarget: function (source, dest, color, depth) {
             var gl = this.gl;
@@ -1851,13 +1861,14 @@ Object.assign(pc, function () {
                     texture._parameterFlags = 0;
                 }
 
-                if (texture._needsUpload || texture._needsMipmapsUpload) {
+                if (texture === this.grabPassTexture) {
+                    this.copyFramebuffer(texture);
+
+                } else if (texture._needsUpload || texture._needsMipmapsUpload) {
                     this.uploadTexture(texture);
 
-                    if (texture !== this.grabPassTexture) {
-                        texture._needsUpload = false;
-                        texture._needsMipmapsUpload = false;
-                    }
+                    texture._needsUpload = false;
+                    texture._needsMipmapsUpload = false;
                 }
             } else {
                 // Ensure the texture is currently bound to the correct target on the specified texture unit.
