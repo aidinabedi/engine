@@ -50,6 +50,7 @@ var COMPILER_LEVEL = [
 var debug = false;
 var profiler = false;
 var sourceMap = false;
+var npmPackage = false;
 var outputPath = DEFAULT_OUTPUT;
 var sourcePath = DEFAULT_SOURCE;
 var tempPath = DEFAULT_TEMP;
@@ -222,6 +223,34 @@ var insertVersions = function (filepath, callback) {
     });
 };
 
+// add package.json
+var makeNPMPackage = function (jsPath, callback) {
+    var jsPathParts = path.parse(jsPath);
+
+    var pkgPath = path.join(jsPathParts.dir, "package.json");
+    try {
+        var pkgInput = require("../package.json");
+        var pkgOutput = JSON.stringify({
+            name: pkgInput.name,
+            version: pkgInput.version,
+            author: pkgInput.author,
+            homepage: pkgInput.homepage,
+            description: pkgInput.description,
+            keywords: pkgInput.keywords,
+            license: pkgInput.license,
+            main: jsPathParts.base,
+            bugs: pkgInput.bugs,
+            repository: pkgInput.repository
+        }, null, 2);
+        fs.writeFileSync(pkgPath, pkgOutput, { encoding: "utf8" });
+    } catch (err) {
+        callback(err);
+        return;
+    }
+
+    callback(undefined, pkgPath);
+};
+
 // remove temporary files
 var cleanup = function () {
     if (directoryExists(tempPath)) {
@@ -298,6 +327,12 @@ var run = function () {
                             process.exit();
                         }
 
+                        if (npmPackage) {
+                            makeNPMPackage(outputPath, function (err, pkgPath) {
+                                if (err) console.error(err);
+                            });
+                        }
+
                         cleanup();
 
                         // done
@@ -331,6 +366,7 @@ var arguments = function () {
             console.log("-d: build debug engine configuration");
             console.log("-p: build profiler engine configuration");
             console.log("-m SOURCE_PATH: build engine and generate source map next to output file. [../src]");
+            console.log("-n: prepare output files for npm publishing");
             process.exit();
         }
 
@@ -357,6 +393,10 @@ var arguments = function () {
 
         if (arg === '-m') {
             sourceMap = true;
+        }
+
+        if (arg === '-n') {
+            npmPackage = true;
         }
 
         if (_last === '-m' && !arg.startsWith('-')) {
