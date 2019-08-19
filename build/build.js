@@ -223,9 +223,21 @@ var insertVersions = function (filepath, callback) {
     });
 };
 
-// add package.json
+// add package.json and tweak typescript declarations (if available)
 var makeNPMPackage = function (jsPath, callback) {
     var jsPathParts = path.parse(jsPath);
+
+    var tsdPath = path.join(jsPathParts.dir, jsPathParts.name + ".d.ts");
+    if (fs.existsSync(tsdPath)) {
+        try {
+            var tsdInput = fs.readFileSync(tsdPath, { encoding: "utf8" });
+            var tsdOutput = tsdInput.replace("\ndeclare namespace", "\nexport namespace");
+            fs.writeFileSync(tsdPath, tsdOutput, { encoding: "utf8" });
+        } catch (err) {
+            callback(err);
+            return;
+        }
+    }
 
     var pkgPath = path.join(jsPathParts.dir, "package.json");
     try {
