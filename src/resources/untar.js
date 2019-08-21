@@ -252,6 +252,10 @@ Object.assign(pc, function () {
     // Convert the UntarScope function to a string and add
     // the onmessage handler for the worker to untar archives
     var scopeToUrl = function () {
+        if (typeof Blob === 'undefined' || typeof URL === 'undefined') {
+            return undefined; // TODO: is there a possible fallnack if Blob and URL are unavailable?
+        }
+
         // execute UntarScope function in the worker
         var code = '(' + UntarScope.toString() + ')(true)\n\n';
 
