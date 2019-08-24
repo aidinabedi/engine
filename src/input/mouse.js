@@ -117,6 +117,7 @@ Object.assign(pc, function () {
     /**
      * @constructor
      * @name pc.Mouse
+     * @implements {pc.events}
      * @classdesc A Mouse Device, bound to a DOM Element.
      * @description Create a new Mouse device
      * @param {Element} [element] The Element that the mouse events are attached to

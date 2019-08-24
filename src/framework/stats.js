@@ -2,6 +2,7 @@
  * @private
  * @constructor
  * @name pc.ApplicationStats
+ * @implements {pc.events}
  * @param {pc.GraphicsDevice} device The graphics device.
  */
 pc.ApplicationStats = function (device) {

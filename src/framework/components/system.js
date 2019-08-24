@@ -2,6 +2,7 @@ Object.assign(pc, function () {
     /**
      * @constructor
      * @name pc.ComponentSystem
+     * @implements {pc.events}
      * @classdesc Component Systems contain the logic and functionality to update all Components of a particular type.
      * @param {pc.Application} app The application managing this system.
      */

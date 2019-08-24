@@ -17,6 +17,7 @@ Object.assign(pc, function () {
        /**
         * @constructor
         * @name pc.SoundInstance
+        * @implements {pc.events}
         * @classdesc A pc.SoundInstance plays a {@link pc.Sound}
         * @param {pc.SoundManager} manager The sound manager
         * @param {pc.Sound} sound The sound to play

@@ -148,6 +148,7 @@ Object.assign(pc, (function () {
     /**
      * @name pc.Tags
      * @class Set of tag names
+     * @implements {pc.events}
      * @description Create an instance of a Tags.
      * @param {Object} [parent] Parent object who tags belong to.
      * Note: Tags are used as addition of `pc.Entity` and `pc.Asset` as `tags` field.

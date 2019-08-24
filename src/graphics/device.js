@@ -155,6 +155,7 @@ Object.assign(pc, function () {
     /**
      * @constructor
      * @name pc.GraphicsDevice
+     * @implements {pc.events}
      * @classdesc The graphics device manages the underlying graphics context. It is responsible
      * for submitting render state changes and graphics primitives to the hardware. A graphics
      * device is tied to a specific canvas HTML element. It is valid to have more than one

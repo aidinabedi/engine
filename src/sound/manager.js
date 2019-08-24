@@ -26,6 +26,7 @@ Object.assign(pc, function () {
     /**
      * @constructor
      * @name pc.SoundManager
+     * @implements {pc.events}
      * @classdesc The SoundManager is used to load and play audio. As well as apply system-wide settings
      * like global volume, suspend and resume.
      * @description Creates a new sound manager.

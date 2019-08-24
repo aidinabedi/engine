@@ -144,6 +144,7 @@ Object.assign(pc, (function () {
      * @private
      * @constructor
      * @name pc.I18n
+     * @implements {pc.events}
      * @classdesc Handles localization. Responsible for loading localization assets
      * and returning translations for a certain key. Can also handle plural forms. To override
      * its default behaviour define a different implementation for {@link pc.I18n#getText} and {@link pc.I18n#getPluralText}.

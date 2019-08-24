@@ -1,6 +1,7 @@
 Object.assign(pc, function () {
     /**
      * @name pc.Application
+     * @implements {pc.events}
      * @class Default application which performs general setup code and initiates the main game loop.
      * @description Create a new Application.
      * @param {Element} canvas The canvas element
