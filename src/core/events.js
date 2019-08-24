@@ -1,6 +1,6 @@
 /**
  * @name pc.events
- * @namespace
+ * @interface
  * @description Namespace for event functions. Use these functions to attach events to an object.
  * @example
  * var obj = { };
@@ -16,6 +16,7 @@
  */
 pc.events = {
     /**
+     * @static
      * @function
      * @name pc.events.attach
      * @description Attach event methods 'on', 'off', 'fire', 'once' and 'hasEvent' to the target object
@@ -39,7 +40,7 @@ pc.events = {
 
     /**
      * @function
-     * @name pc.events.on
+     * @name pc.events#on
      * @description Attach an event handler to an event
      * @param {String} name Name of the event to bind the callback to
      * @param {Function} callback Function that is called when event is fired. Note the callback is limited to 8 arguments.
@@ -71,7 +72,7 @@ pc.events = {
 
     /**
      * @function
-     * @name pc.events.off
+     * @name pc.events#off
      * @description Detach an event handler from an event. If callback is not provided then all callbacks are unbound from the event,
      * if scope is not provided then all events with the callback will be unbound.
      * @param {String} [name] Name of the event to unbind
@@ -136,7 +137,7 @@ pc.events = {
     /* eslint-disable valid-jsdoc */
     /**
      * @function
-     * @name pc.events.fire
+     * @name pc.events#fire
      * @description Fire an event, all additional arguments are passed on to the event listener
      * @param {Object} name Name of event to fire
      * @param {*} [...] Arguments that are passed to the event handler
@@ -187,7 +188,7 @@ pc.events = {
 
     /**
      * @function
-     * @name pc.events.once
+     * @name pc.events#once
      * @description Attach an event handler to an event. This handler will be removed after being fired once.
      * @param {String} name Name of the event to bind the callback to
      * @param {Function} callback Function that is called when event is fired. Note the callback is limited to 8 arguments.
@@ -208,7 +209,7 @@ pc.events = {
 
     /**
      * @function
-     * @name pc.events.hasEvent
+     * @name pc.events#hasEvent
      * @description Test if there are any handlers bound to an event name
      * @param {String} name The name of the event to test
      * @returns {Boolean} true if the object has handlers bound to the specified event name.
