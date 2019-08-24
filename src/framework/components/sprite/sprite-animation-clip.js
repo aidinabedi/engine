@@ -3,7 +3,7 @@ Object.assign(pc, function () {
     /**
      * @constructor
      * @name pc.SpriteAnimationClip
-     * @implements {pc.events}
+     * @mixes pc.events
      * @classdesc Handles playing of sprite animations and loading of relevant sprite assets.
      * @param {pc.SpriteComponent} component The sprite component managing this clip.
      * @param {Object} data Data for the new animation clip.

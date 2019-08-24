@@ -26,7 +26,7 @@ Object.assign(pc, function () {
     /**
      * @constructor
      * @name pc.Asset
-     * @implements {pc.events}
+     * @mixes pc.events
      * @classdesc An asset record of a file or data resource that can be loaded by the engine.
      * The asset contains three important fields:<br/>
      * <strong>file</strong>: contains the details of a file (filename, url) which contains the resource data, e.g. an image file for a texture asset<br/>

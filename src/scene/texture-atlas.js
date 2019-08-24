@@ -4,7 +4,7 @@ Object.assign(pc, function () {
     /**
      * @constructor
      * @name pc.TextureAtlas
-     * @implements {pc.events}
+     * @mixes pc.events
      * @classdesc A pc.TextureAtlas contains a number of frames from a texture. Each frame defines a region in
      * a texture. The pc.TextureAtlas is referenced by {@link pc.Sprite}s.
      * @property {pc.Texture} texture The texture atlas.

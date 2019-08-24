@@ -1,6 +1,6 @@
 /**
  * @name pc.script
- * @implements {pc.events}
+ * @mixes pc.events
  * @namespace
  * @description Functions for creating user scripts for the script component
  * @property {Boolean} legacy If True, then engine will use legacy scripting system, defaults to true (subject to change)

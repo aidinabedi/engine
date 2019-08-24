@@ -309,7 +309,7 @@ Object.assign(pc, function () {
         /**
          * @constructor
          * @name ScriptType
-         * @implements {pc.events}
+         * @mixes pc.events
          * @classdesc Represents the type of a script. It is returned by {@link pc.createScript}. Also referred to as Script Type.<br />
          * The type is to be extended using its JavaScript prototype. There is a <strong>list of methods</strong>
          * that will be executed by the engine on instances of this type, such as: <ul><li>initialize</li><li>postInitialize</li><li>update</li><li>postUpdate</li><li>swap</li></ul>

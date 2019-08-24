@@ -24,7 +24,7 @@ Object.assign(pc, function () {
     /**
      * @constructor
      * @name pc.SoundSlot
-     * @implements {pc.events}
+     * @mixes pc.events
      * @classdesc The SoundSlot controls playback of an audio asset.
      * @description Create a new SoundSlot
      * @param {pc.SoundComponent} component The Component that created this slot.

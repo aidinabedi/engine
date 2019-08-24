@@ -1,6 +1,6 @@
 /**
  * @name pc.events
- * @interface
+ * @mixin
  * @description Namespace for event functions. Use these functions to attach events to an object.
  * @example
  * var obj = { };

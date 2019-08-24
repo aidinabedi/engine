@@ -2,7 +2,7 @@ Object.assign(pc, function () {
     /**
      * @constructor
      * @name pc.Component
-     * @implements {pc.events}
+     * @mixes pc.events
      * @classdesc Components are used to attach functionality on a {@link pc.Entity}. Components
      * can receive update events each frame, and expose properties to the PlayCanvas Editor.
      * @description Base constructor for a Component

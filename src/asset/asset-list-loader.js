@@ -3,7 +3,7 @@ Object.assign(pc, function () {
      * @private
      * @constructor
      * @name pc.AssetListLoader
-     * @implements {pc.events}
+     * @mixes pc.events
      * @classdesc Used to load a group of assets and fires a callback when all assets are loaded
      * @param {pc.Asset[] | Number[]} assetList An array of pc.Asset objects to load or an array of Asset IDs to load
      * @param {pc.AssetRegistry} assetRegistry The application's asset registry
