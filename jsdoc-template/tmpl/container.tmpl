@@ -82,6 +82,18 @@
     <?js } ?>
 
     <?js
+        var typedefs = self.find({kind: 'typedef', memberof: doc.longname});
+        if (!isGlobalPage && typedefs && typedefs.length) {
+    ?>
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        <dl><?js typedefs.forEach(function(t) { ?>
+            <dt><?js= self.linkto(t.longname, t.name) ?></dt>
+            <dd><?js if (t.summary) { ?><?js= t.summary ?><?js } ?></dd>
+        <?js }); ?></dl>
+    <?js } ?>
+
+    <?js
         var classes = self.find({kind: 'class', memberof: doc.longname});
         if (!isGlobalPage && classes && classes.length) {
     ?>
