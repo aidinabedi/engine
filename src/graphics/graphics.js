@@ -234,6 +234,10 @@
         CUBEFACE_NEGZ: 5,
 
         /**
+         * @typedef {Class<pc.CULLFACE_NONE>|Class<pc.CULLFACE_BACK>|Class<pc.CULLFACE_FRONT>|Class<pc.CULLFACE_FRONTANDBACK>} pc.CULLFACE
+         * @description Culling mode for triangles.
+         */
+        /**
          * @constant
          * @type {Number}
          * @name pc.CULLFACE_NONE
