@@ -401,6 +401,13 @@
          * @description Energy-conserving Blinn-Phong.
          */
         SPECULAR_BLINN: 1,
+        /**
+         * @constant
+         * @name pc.SPECULAR_GGX
+         * @type {number}
+         * @description Energy-conserving GGX/Trowbridge-Reitz (used by Unreal Engine).
+         */
+        SPECULAR_GGX: 2,
 
         /**
          * @constant
