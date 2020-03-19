@@ -217,10 +217,18 @@ Object.assign(pc, function () {
          * @name pc.BoundingBox#setMinMax
          * @description Sets the minimum and maximum corner of the AABB.
          * Using this function is faster than assigning min and max separately.
-         * @param {pc.Vec3} min - The minimum corner of the AABB.
-         * @param {pc.Vec3} max - The maximum corner of the AABB.
+         * @param {pc.Vec3|number[]} min - The minimum corner of the AABB. Can be a {@link pc.Vec3} or an array (of length 3).
+         * @param {pc.Vec3|number[]} max - The maximum corner of the AABB. Can be a {@link pc.Vec3} or an array (of length 3).
          */
         setMinMax: function (min, max) {
+            if (Array.isArray(min)) {
+                min = this._min.set(min[0], min[1], min[2]);
+            }
+
+            if (Array.isArray(max)) {
+                max = this._max.set(max[0], max[1], max[2]);
+            }
+
             this.center.add2(max, min).scale(0.5);
             this.halfExtents.sub2(max, min).scale(0.5);
         },
