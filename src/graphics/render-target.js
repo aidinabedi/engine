@@ -6,6 +6,27 @@ Object.assign(pc, function () {
         face: 0
     };
 
+    var flipPixelsVertically = function (pixels, width, height, offset, bytesPerPixel, typedArray) {
+        var halfHeight = height / 2 | 0; // the | 0 keeps the result an int
+        var bytesPerRow = width * bytesPerPixel;
+
+        // make a temp buffer to hold one row
+        var temp = new typedArray(width * bytesPerPixel);
+        for (var y = 0; y < halfHeight; ++y) {
+            var topOffset = offset + y * bytesPerRow;
+            var bottomOffset = offset + (height - y - 1) * bytesPerRow;
+
+            // make copy of a row on the top half
+            temp.set(pixels.subarray(topOffset, topOffset + bytesPerRow));
+
+            // copy a row from the bottom half to the top
+            pixels.copyWithin(topOffset, bottomOffset, bottomOffset + bytesPerRow);
+
+            // copy the copy of the top half row to the bottom half
+            pixels.set(temp, bottomOffset);
+        }
+    };
+
     /**
      * @class
      * @name pc.RenderTarget
@@ -189,6 +210,54 @@ Object.assign(pc, function () {
                 }
             }
             return this._device.copyRenderTarget(source, this, color, depth);
+        },
+
+        /**
+         * @function
+         * @name pc.RenderTarget#getPixels
+         * @description TODO
+         * @param {boolean} [flipY] - TODO
+         * @param {number} [x] - TODO
+         * @param {number} [y] - TODO
+         * @param {number} [width] - TODO
+         * @param {number} [height] - TODO
+         * @param {number} [format] - TODO
+         * @param {Uint8Array|Uint16Array|Float32Array} [pixels] - TODO
+         * @param {number} [dstOffset] - TODO
+         * @returns {Uint8Array|Uint16Array|Float32Array|null} TODO
+         */
+        getPixels: function (flipY, x, y, width, height, format, pixels, dstOffset) {
+            var device = this._device;
+            if (!device) return null;
+
+            var colorBuffer = this._colorBuffer;
+            if (!_colorBuffer) return null;
+
+            var framebuffer = this._glResolveFrameBuffer || this._glFrameBuffer;
+            if (!framebuffer) return null;
+
+            x = x || 0;
+            y = y || 0;
+            width = width || colorBuffer.width;
+            height = height || colorBuffer.height;
+
+            var gl = device.gl;
+            gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+            var pixels = new Uint8Array(width * height * 4);
+            gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+            gl.bindFramebuffer(gl.FRAMEBUFFER, oldFrameBuffer);
+        },
+
+        /**
+         * @function
+         * @name pc.RenderTarget#toDataURL
+         * @description TODO
+         * @param {boolean} [flipY] - TODO
+         * @returns {string} TODO
+         */
+        toDataURL: function (flipY) {
+            //
+            return "";
         }
     });
 
