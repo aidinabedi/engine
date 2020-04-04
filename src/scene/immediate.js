@@ -58,7 +58,7 @@ Object.assign(pc.Application.prototype, function () {
                 this.mesh.primitive[0].base = 0;
                 this.mesh.primitive[0].indexed = false;
 
-                this.material = new pc.BasicMaterial();
+                this.material = new pc.UnlitMaterial();
                 this.material.vertexColors = true;
                 this.material.blend = true;
                 this.material.blendType = pc.BLEND_NORMAL;

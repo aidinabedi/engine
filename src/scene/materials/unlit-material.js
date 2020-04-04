@@ -2,17 +2,17 @@ Object.assign(pc, function () {
 
     /**
      * @class
-     * @name pc.BasicMaterial
+     * @name pc.UnlitMaterial
      * @augments pc.Material
-     * @classdesc A Basic material is for rendering unlit geometry, either using a constant color or a
+     * @classdesc A Unlit material is for rendering unlit geometry, either using a constant color or a
      * color map modulated with a color.
      * @property {pc.Color} color The flat color of the material (RGBA, where each component is 0 to 1).
      * @property {pc.Texture|null} colorMap The color map of the material (default is null). If specified, the color map is
      * modulated by the color property.
      * @property {boolean} vertexColors Use mesh vertex colors to modulate color map (if specified) and color property. Defaults to false.
      * @example
-     * // Create a new Basic material
-     * var material = new pc.BasicMaterial();
+     * // Create a new Unlit material
+     * var material = new pc.UnlitMaterial();
      *
      * // Set the material to have a texture map that is multiplied by a red color
      * material.color.set(1, 0, 0);
@@ -21,7 +21,7 @@ Object.assign(pc, function () {
      * // Notify the material that it has been modified
      * material.update();
      */
-    var BasicMaterial = function () {
+    var UnlitMaterial = function () {
         pc.Material.call(this);
 
         this.color = new pc.Color(1, 1, 1, 1);
@@ -30,19 +30,19 @@ Object.assign(pc, function () {
         this.colorMap = null;
         this.vertexColors = false;
     };
-    BasicMaterial.prototype = Object.create(pc.Material.prototype);
-    BasicMaterial.prototype.constructor = BasicMaterial;
+    UnlitMaterial.prototype = Object.create(pc.Material.prototype);
+    UnlitMaterial.prototype.constructor = UnlitMaterial;
 
-    Object.assign(BasicMaterial.prototype, {
+    Object.assign(UnlitMaterial.prototype, {
         /**
          * @function
-         * @name pc.BasicMaterial#clone
-         * @description Duplicates a Basic material. All properties are duplicated except textures
+         * @name pc.UnlitMaterial#clone
+         * @description Duplicates a Unlit material. All properties are duplicated except textures
          * where only the references are copied.
-         * @returns {pc.BasicMaterial} A cloned Basic material.
+         * @returns {pc.UnlitMaterial} A cloned Unlit material.
          */
         clone: function () {
-            var clone = new pc.BasicMaterial();
+            var clone = new pc.UnlitMaterial();
 
             pc.Material.prototype._cloneInternal.call(this, clone);
 
@@ -74,11 +74,12 @@ Object.assign(pc, function () {
                 pass: pass
             };
             var library = device.getProgramLibrary();
-            this.shader = library.getProgram('basic', options);
+            this.shader = library.getProgram('unlit', options);
         }
     });
 
     return {
-        BasicMaterial: BasicMaterial
+        UnlitMaterial: UnlitMaterial,
+        BasicMaterial: UnlitMaterial // for backwards compatibility
     };
 }());

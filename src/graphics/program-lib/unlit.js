@@ -1,6 +1,6 @@
-pc.programlib.basic = {
+pc.programlib.unlit = {
     generateKey: function (options) {
-        var key = 'basic';
+        var key = 'unlit';
         if (options.fog)          key += '_fog';
         if (options.alphaTest)    key += '_atst';
         if (options.vertexColors) key += '_vcol';
