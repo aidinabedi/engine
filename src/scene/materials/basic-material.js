@@ -9,6 +9,7 @@ Object.assign(pc, function () {
      * @property {pc.Color} color The flat color of the material (RGBA, where each component is 0 to 1).
      * @property {pc.Texture|null} colorMap The color map of the material (default is null). If specified, the color map is
      * modulated by the color property.
+     * @property {boolean} vertexColors Use mesh vertex colors to modulate color map (if specified) and color property. Defaults to false.
      * @example
      * // Create a new Basic material
      * var material = new pc.BasicMaterial();
