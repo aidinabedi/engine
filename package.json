@@ -18,7 +18,7 @@
   ],
   "license": "MIT",
   "main": "build/output/playcanvas.js",
-  "types": "index.d.ts",
+  "types": "build/output/playcanvas.d.ts",
   "bugs": {
     "url": "https://github.com/playcanvas/engine/issues"
   },
