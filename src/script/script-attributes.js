@@ -115,7 +115,6 @@ Object.assign(pc, function () {
     };
 
 
-    /* eslint-disable jsdoc/no-undefined-types */
     /**
      * @class
      * @name pc.ScriptAttributes
@@ -123,7 +122,6 @@ Object.assign(pc, function () {
      * Note: An instance of pc.ScriptAttributes is created automatically by each {@link pc.ScriptType}.
      * @param {typeof pc.ScriptType} scriptType - Script Type that attributes relate to.
      */
-    /* eslint-enable jsdoc/no-undefined-types */
     var ScriptAttributes = function (scriptType) {
         this.scriptType = scriptType;
         this.index = { };

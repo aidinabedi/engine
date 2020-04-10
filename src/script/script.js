@@ -1,5 +1,4 @@
 Object.assign(pc, function () {
-    /* eslint-disable jsdoc/no-undefined-types */
     /**
      * @static
      * @function
@@ -31,7 +30,6 @@ Object.assign(pc, function () {
      *     this.entity.rotate(0, this.speed * dt, 0);
      * };
      */
-    /* eslint-enable jsdoc/no-undefined-types */
     var createScript = function (name, app) {
         if (pc.script.legacy) {
             // #ifdef DEBUG
@@ -57,7 +55,6 @@ Object.assign(pc, function () {
         return script;
     };
 
-    /* eslint-disable jsdoc/no-undefined-types */
     /* eslint-disable jsdoc/check-examples */
     /**
      * @static
@@ -95,7 +92,6 @@ Object.assign(pc, function () {
      * PlayerController.attributes.add('attribute1', {type: 'number'});
      */
     /* eslint-enable jsdoc/check-examples */
-    /* eslint-enable jsdoc/no-undefined-types */
     var registerScript = function (script, name, app) {
         if (pc.script.legacy) {
             // #ifdef DEBUG

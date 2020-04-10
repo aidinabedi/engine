@@ -23,7 +23,6 @@ Object.assign(pc, function () {
         this.off();
     };
 
-    /* eslint-disable jsdoc/no-undefined-types */
     /**
      * @function
      * @name pc.ScriptRegistry#add
@@ -38,7 +37,6 @@ Object.assign(pc, function () {
      * // playerController Script Type will be added to pc.ScriptRegistry automatically
      * console.log(app.scripts.has('playerController')); // outputs true
      */
-    /* eslint-enable jsdoc/no-undefined-types */
     ScriptRegistry.prototype.add = function (script) {
         var self = this;
 
@@ -163,7 +161,6 @@ Object.assign(pc, function () {
         return true;
     };
 
-    /* eslint-disable jsdoc/no-undefined-types */
     /**
      * @function
      * @name pc.ScriptRegistry#get
@@ -173,7 +170,6 @@ Object.assign(pc, function () {
      * @example
      * var PlayerController = app.scripts.get('playerController');
      */
-    /* eslint-enable jsdoc/no-undefined-types */
     ScriptRegistry.prototype.get = function (name) {
         return this._scripts[name] || null;
     };
@@ -193,7 +189,6 @@ Object.assign(pc, function () {
         return this._scripts.hasOwnProperty(name);
     };
 
-    /* eslint-disable jsdoc/no-undefined-types */
     /**
      * @function
      * @name pc.ScriptRegistry#list
@@ -205,7 +200,6 @@ Object.assign(pc, function () {
      *     return o.name;
      * }));
      */
-    /* eslint-enable jsdoc/no-undefined-types */
     ScriptRegistry.prototype.list = function () {
         return this._list;
     };

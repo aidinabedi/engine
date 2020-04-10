@@ -489,7 +489,6 @@ Object.assign(pc, function () {
             return (index && index.instance) || null;
         },
 
-        /* eslint-disable jsdoc/no-undefined-types */
         /**
          * @function
          * @name pc.ScriptComponent#create
@@ -510,7 +509,6 @@ Object.assign(pc, function () {
          *     }
          * });
          */
-        /* eslint-enable jsdoc/no-undefined-types */
         create: function (name, args) {
             var self = this;
             args = args || { };
