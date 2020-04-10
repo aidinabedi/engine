@@ -31,7 +31,7 @@ Object.assign(pc, function () {
      * Note: when {@link pc.createScript} is called, it will add the {@link pc.ScriptType} to the registry automatically.
      * If a script already exists in registry, and the new script has a `swap` method defined,
      * it will perform code hot swapping automatically in async manner.
-     * @param {Class<pc.ScriptType>} script - Script Type that is created using {@link pc.createScript}.
+     * @param {typeof pc.ScriptType} script - Script Type that is created using {@link pc.createScript}.
      * @returns {boolean} True if added for the first time or false if script already exists.
      * @example
      * var PlayerController = pc.createScript('playerController');
@@ -169,7 +169,7 @@ Object.assign(pc, function () {
      * @name pc.ScriptRegistry#get
      * @description Get {@link pc.ScriptType} by name.
      * @param {string} name - Name of a {@link pc.ScriptType}.
-     * @returns {Class<pc.ScriptType>} The Script Type if it exists in the registry or null otherwise.
+     * @returns {typeof pc.ScriptType} The Script Type if it exists in the registry or null otherwise.
      * @example
      * var PlayerController = app.scripts.get('playerController');
      */
@@ -198,7 +198,7 @@ Object.assign(pc, function () {
      * @function
      * @name pc.ScriptRegistry#list
      * @description Get list of all {@link pc.ScriptType}s from registry.
-     * @returns {Array<Class<pc.ScriptType>>} list of all {@link pc.ScriptType}s in registry.
+     * @returns {Array<typeof pc.ScriptType>} list of all {@link pc.ScriptType}s in registry.
      * @example
      * // logs array of all Script Type names available in registry
      * console.log(app.scripts.list().map(function (o) {
