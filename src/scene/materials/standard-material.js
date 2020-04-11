@@ -701,6 +701,14 @@ Object.assign(pc, function () {
                 this._setParameter('material_clearCoatReflectivity', this.clearCoat); // for now don't separate this
             }
 
+            if (!this.sheenMap || this.sheenTint) {
+                this._setParameter('material_sheen', this.sheenUniform);
+            }
+
+            if (!this.sheenGlossMap || this.sheenGlossiness < 1) {
+                this._setParameter('material_sheenGlossiness', this.sheenGlossiness);
+            }
+
             uniform = this.getUniform("shininess", this.shininess, true);
             this._setParameter(uniform.name, uniform.value);
 
@@ -936,6 +944,7 @@ Object.assign(pc, function () {
         _defineColor(obj, "diffuse", new pc.Color(1, 1, 1));
         _defineColor(obj, "specular", new pc.Color(0, 0, 0));
         _defineColor(obj, "emissive", new pc.Color(0, 0, 0), true);
+        _defineColor(obj, "sheen", new pc.Color(0, 0, 0));
 
         _defineFloat(obj, "shininess", 25, function (mat, shininess) {
             // Shininess is 0-100 value
@@ -963,6 +972,7 @@ Object.assign(pc, function () {
         _defineFloat(obj, "anisotropy", 0);
         _defineFloat(obj, "clearCoat", 0);
         _defineFloat(obj, "clearCoatGlossiness", 1);
+        _defineFloat(obj, "sheenGlossiness", 0);
         _defineFloat(obj, "aoUvSet", 0, null); // legacy
 
         _defineObject(obj, "ambientSH", function (mat, val, changeMat) {
@@ -991,6 +1001,8 @@ Object.assign(pc, function () {
         _defineFlag(obj, "diffuseTint", false);
         _defineFlag(obj, "specularTint", false);
         _defineFlag(obj, "emissiveTint", false);
+        _defineFlag(obj, "sheenTint", false);
+        _defineFlag(obj, "sheenAlbedoScaling", false);
         _defineFlag(obj, "fastTbn", false);
         _defineFlag(obj, "specularAntialias", false);
         _defineFlag(obj, "useMetalness", false);
@@ -1024,6 +1036,8 @@ Object.assign(pc, function () {
         _defineTex2D(obj, "ao", 0, 1);
         _defineTex2D(obj, "light", 1, 3);
         _defineTex2D(obj, "msdf", 0, 3);
+        _defineTex2D(obj, "sheen", 0, 3);
+        _defineTex2D(obj, "sheenGloss", 0, 1);
 
         _defineObject(obj, "cubeMap");
         _defineObject(obj, "sphereMap");
@@ -1038,6 +1052,7 @@ Object.assign(pc, function () {
         _defineAlias(obj, "diffuseTint", "diffuseMapTint");
         _defineAlias(obj, "specularTint", "specularMapTint");
         _defineAlias(obj, "emissiveTint", "emissiveMapTint");
+        _defineAlias(obj, "sheenTint", "sheenMapTint");
         _defineAlias(obj, "aoVertexColor", "aoMapVertexColor");
         _defineAlias(obj, "diffuseVertexColor", "diffuseMapVertexColor");
         _defineAlias(obj, "specularVertexColor", "specularMapVertexColor");
@@ -1046,6 +1061,8 @@ Object.assign(pc, function () {
         _defineAlias(obj, "glossVertexColor", "glossMapVertexColor");
         _defineAlias(obj, "opacityVertexColor", "opacityMapVertexColor");
         _defineAlias(obj, "lightVertexColor", "lightMapVertexColor");
+        _defineAlias(obj, "sheenVertexColor", "sheenMapVertexColor");
+        _defineAlias(obj, "sheenGlossVertexColor", "sheenGlossMapVertexColor");
 
         for (var i = 0; i < _propsSerial.length; i++) {
             _propsSerialDefaultVal[i] = obj[_propsSerial[i]];
