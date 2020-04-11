@@ -68,6 +68,9 @@ Object.assign(pc, function () {
         var diffuseTint = ((stdMat.diffuse.r !== 1 || stdMat.diffuse.g !== 1 || stdMat.diffuse.b !== 1) &&
             (stdMat.diffuseTint || (!stdMat.diffuseMap && !stdMat.diffuseVertexColor))) ? 3 : 0;
 
+        var sheenTint = ((stdMat.sheen.r !== 0 || stdMat.sheen.g !== 0 || stdMat.sheen.b !== 0) &&
+            (stdMat.sheenTint || (!stdMat.sheenMap && !stdMat.sheenVertexColor))) ? 3 : 0;
+
         var specularTint = false;
         var useSpecular = (stdMat.useMetalness ? true : !!stdMat.specularMap) || (!!stdMat.sphereMap) || (!!stdMat.cubeMap) || (!!stdMat.dpAtlas);
         useSpecular = useSpecular || (stdMat.useMetalness ? true : !(stdMat.specular.r === 0 && stdMat.specular.g === 0 && stdMat.specular.b === 0));
@@ -95,6 +98,11 @@ Object.assign(pc, function () {
         options.specularTint = specularTint ? 3 : 0;
         options.metalnessTint = (stdMat.useMetalness && stdMat.metalness < 1) ? 1 : 0;
         options.glossTint = 1;
+        options.sheen = sheenTint || !!stdMat.sheenMap || stdMat.sheenVertexColor;
+        options.sheenTint = options.sheen && sheenTint;
+        options.sheenAlbedoScaling = options.sheen && stdMat.sheenAlbedoScaling;
+        options.sheenGloss = options.sheen && (!!stdMat.sheenGlossMap || stdMat.sheenGlossiness < 1) ? 1 : 0;
+        options.sheenGlossTint = options.sheen && (stdMat.sheenGlossiness < 1) ? 1 : 0;
         options.emissiveTint = emissiveTint;
         options.alphaToCoverage = stdMat.alphaToCoverage;
         options.normalizeNormalMap = stdMat.normalizeNormalMap;

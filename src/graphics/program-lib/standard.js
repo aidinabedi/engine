@@ -873,6 +873,10 @@ pc.programlib.standard = {
             code += '#define CLEARCOAT 1\n';
         }
 
+        if (options.sheen > 0) {
+            code += '#define SHEEN 1\n';
+        }
+
         // FRAGMENT SHADER INPUTS: UNIFORMS
         var numShadowLights = 0;
         var shadowTypeUsed = [];
@@ -988,6 +992,11 @@ pc.programlib.standard = {
             code += this._addMap("opacity", "opacityPS", options, chunks);
         }
         code += this._addMap("emissive", "emissivePS", options, chunks, options.emissiveFormat);
+
+        if (options.sheen) {
+            code += this._addMap("sheen", "sheenPS", options, chunks);
+            if (options.sheenGloss) code += this._addMap("sheenGloss", "sheenGlossPS", options, chunks);
+        }
 
         if (options.useSpecular && (lighting || reflections)) {
             if (options.specularAntialias && options.normalMap) {
@@ -1259,6 +1268,12 @@ pc.programlib.standard = {
 
         code += "   getAlbedo();\n";
 
+
+        if (options.sheen) {
+            code += "   getSheen();\n";
+            if (options.sheenGloss) code += "   getSheenGloss();\n";
+        }
+
         if ((lighting && options.useSpecular) || reflections) {
             code += "   getSpecularity();\n";
             if (!getGlossinessCalled) code += "   getGlossiness();\n";
@@ -1485,6 +1500,8 @@ pc.programlib.standard = {
         if (code.includes("ccSpecularLight")) structCode += "vec3 ccSpecularLight;\n";
         if (code.includes("ccSpecularity")) structCode += "vec3 ccSpecularity;\n";
         if (code.includes("ccGlossiness")) structCode += "float ccGlossiness=0.9;\n";
+        if (code.includes("dSheenColor")) structCode += "vec3 dSheenColor;\n";
+        if (code.includes("dSheenGloss")) structCode += "float dSheenGloss;\n";
 
         code = codeBegin + structCode + code;
 
