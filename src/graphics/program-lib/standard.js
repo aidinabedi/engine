@@ -1154,6 +1154,10 @@ pc.programlib.standard = {
             code += chunks.combineClearCoatPS;
         }
 
+        if (options.sheen) {
+            code += chunks.combineSheenPS;
+        }
+
         var addAmbient = true;
         if (options.lightMap || options.lightVertexColor) {
             var lightmapChunkPropName = options.dirLightMap ? 'lightmapDirPS' : 'lightmapSinglePS';
