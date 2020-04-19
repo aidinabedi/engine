@@ -5,36 +5,46 @@
 #define maxEps(x)           max(x, EPSILON)
 #define clampEps(x)         clamp(x, EPSILON, 1.0)
 
-float sheenDistribution_CharlieSheen(float NdotH, float roughness) {
-    float invR = 1. / roughness;
+float calcDistributionSheen(float NdotH, float roughness) {
+    float invR = 1.0 / roughness;
     float cos2h = NdotH * NdotH;
-    float sin2h = 1. - cos2h;
-    return (2. + invR) * pow(sin2h, invR * .5) / (2. * PI);
+    float sin2h = 1.0 - cos2h;
+    return (2.0 + invR) * pow(sin2h, invR * 0.5) / (2.0 * PI);
 }
 
-float sheenVisibility_Ashikhmin(float NdotL, float NdotV) {
-    return 1. / (4. * (NdotL + NdotV - NdotL * NdotV));
+float calcVisibilitySheen(float NdotL, float NdotV) {
+    return 1.0 / (4.0 * (NdotL + NdotV - NdotL * NdotV));
 }
 
-vec3 combineSheen() {
+float calcMaxAmbientSheen(float NdotV, float roughness) {
+    float c = 1.0 - NdotV;
+    float c3 = c*c*c;
+    return 0.65584461 * c3 + 1.0 / (4.16526551 + exp(-7.97291361*roughness+6.33516894));
+}
 
+float getMaxAmbientSheen() {
+    float NdotV = clampEps(dot(dNormalW, dViewDirW));
+    float roughness = clampEps(1.0 - sheenGlossiness);
+    return calcMaxAmbientSheen(NdotV, roughness);
+}
+
+float getLightSheen() {
     vec3 N = dNormalW;
-    vec3 L = dLightDirW;
+    vec3 L = dLightDirNormW;
     vec3 V = dViewDirW;
     vec3 H = normalize(V + L);
 
     float NdotH = clampEps(dot(N, H));
     float NdotL = clampEps(dot(N, L));
     float NdotV = clampEps(dot(N, V));
-    float roughness = clampEps(1.0 - dSheenGloss);
-    //float alphaG = convertRoughnessToAverageSlope(roughness);
 
-    vec3 sheenColor = dSheenColor;
-    float sheenIntensity = 1.0;
-    float sheenDistribution = sheenDistribution_CharlieSheen(NdotH, roughness);
-    float sheenVisibility = sheenVisibility_Ashikhmin(NdotL, NdotV);
-
-    vec3 sheenTerm = sheenColor * sheenIntensity * sheenDistribution * sheenVisibility;
-    //return sheenTerm * info.attenuation * NdotL * lightColor;
-    return sheenTerm;
+    float roughness = clampEps(1.0 - sheenGlossiness);
+    float distribution = calcDistributionSheen(NdotH, roughness);
+    float visibility = calcVisibilitySheen(NdotL, NdotV);
+    return distribution * visibility * NdotL;
 }
+
+vec3 combineSheen() {
+    return (sheenIndirectLight + sheenDirectLight) * sheenColor;
+}
+

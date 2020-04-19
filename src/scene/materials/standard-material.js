@@ -744,11 +744,14 @@ Object.assign(pc, function () {
                 this._setParameter('material_clearCoatReflectivity', this.clearCoat); // for now don't separate this
             }
 
-            if (!this.sheenMap || this.sheenTint) {
+            var sheenColor = (this.sheen.r !== 0 || this.sheen.g !== 0 || this.sheen.b !== 0);
+            var sheen = sheenColor || !!this.sheenMap || this.sheenVertexColor;
+
+            if ((!this.sheenMap && !this.sheenVertexColor) || (this.sheenTint && sheenColor)) {
                 this._setParameter('material_sheen', this.sheenUniform);
             }
 
-            if (!this.sheenGlossMap || this.sheenGlossiness < 1) {
+            if (sheen && this.sheenGlossiness < 1) {
                 this._setParameter('material_sheenGlossiness', this.sheenGlossiness);
             }
 
@@ -1020,7 +1023,7 @@ Object.assign(pc, function () {
         _defineFloat(obj, "anisotropy", 0);
         _defineFloat(obj, "clearCoat", 0);
         _defineFloat(obj, "clearCoatGlossiness", 1);
-        _defineFloat(obj, "sheenGlossiness", 0);
+        _defineFloat(obj, "sheenGlossiness", 1);
         _defineFloat(obj, "aoUvSet", 0, null); // legacy
 
         _defineObject(obj, "ambientSH", function (mat, val, changeMat) {

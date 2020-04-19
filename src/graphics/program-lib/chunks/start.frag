@@ -9,4 +9,7 @@ void main(void) {
         ccReflection = vec4(0);
         ccSpecularity = vec3(0);
     #endif
-    
+    #ifdef SHEEN
+        sheenIndirectLight = vec3(0);
+        sheenDirectLight = vec3(0);
+    #endif

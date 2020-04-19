@@ -883,8 +883,9 @@ pc.programlib.standard = {
             code += '#define CLEARCOAT 1\n';
         }
 
-        if (options.sheen > 0) {
+        if (options.sheen) {
             code += '#define SHEEN 1\n';
+            if (options.sheenAlbedoScaling) code += '#define SHEEN_ALBEDOSCALING 1\n';
         }
 
         // FRAGMENT SHADER INPUTS: UNIFORMS
@@ -1175,6 +1176,15 @@ pc.programlib.standard = {
 
         if (options.sheen) {
             code += chunks.combineSheenPS;
+
+            code += "void addAmbientSheen() {\n";
+            code += "    float maxAmbient = getMaxAmbientSheen();\n";
+            code += "    sheenIndirectLight = dDiffuseLight * maxAmbient;\n";
+            if (options.sheenAlbedoScaling) {
+                code += "    float maxColor = max(max(sheenColor.r, sheenColor.g), sheenColor.b);\n";
+                code += "    sheenAlbedoScaling = 1.0 - maxColor * maxAmbient;\n";
+            }
+            code += "}\n";
         }
 
         var addAmbient = true;
@@ -1291,20 +1301,22 @@ pc.programlib.standard = {
 
         code += "   getAlbedo();\n";
 
-
-        if (options.sheen) {
-            code += "   getSheen();\n";
-            if (options.sheenGloss) code += "   getSheenGloss();\n";
-        }
-
         if ((lighting && options.useSpecular) || reflections) {
             code += "   getSpecularity();\n";
             if (!getGlossinessCalled) code += "   getGlossiness();\n";
             if (options.fresnelModel > 0) code += "   getFresnel();\n";
         }
 
+        if (options.sheen) {
+            code += "   getSheen();\n";
+            if (options.sheenGloss) code += "   getSheenGloss();\n";
+        }
+
         if (addAmbient) {
             code += "   addAmbient();\n";
+        }
+        if (options.sheen) {
+            code += "   addAmbientSheen();\n";
         }
         if (options.ambientTint && !useOldAmbient) {
             code += "   dDiffuseLight *= material_ambient;\n";
@@ -1319,6 +1331,7 @@ pc.programlib.standard = {
         if (lighting || reflections) {
             if (cubemapReflection || options.sphereMap || options.dpAtlas) {
                 code += "   addReflection();\n";
+                if (options.sheenAlbedoScaling) code += "   dReflection *= sheenAlbedoScaling;\n";
             }
 
             if (options.dirLightMap) {
@@ -1432,6 +1445,10 @@ pc.programlib.standard = {
                     code += "       ccSpecularLight += getLightSpecularCC() * dAtten * light" + i + "_color" + (usesCookieNow ? " * dAtten3" : "") + ";\n";
                 }
 
+                if (options.sheen) {
+                    code += "       sheenDirectLight += getLightSheen() * dAtten * light" + i + "_color" + (usesCookieNow ? " * dAtten3" : "") + ";\n";
+                }
+
                 if (options.useSpecular) {
                     code += "       dAtten *= getLightSpecular();\n";
                     code += "       dSpecularLight += dAtten * light" + i + "_color" + (usesCookieNow ? " * dAtten3" : "") + ";\n";
@@ -1448,6 +1465,11 @@ pc.programlib.standard = {
             if ((cubemapReflection || options.sphereMap || options.dpAtlas) && options.refraction) {
                 code += "   addRefraction();\n";
             }
+        }
+
+        if (options.sheenAlbedoScaling) {
+            code += "   dDiffuseLight *= sheenAlbedoScaling;\n";
+            code += "   dSpecularLight *= sheenAlbedoScaling;\n";
         }
         code += "\n";
 
@@ -1523,8 +1545,11 @@ pc.programlib.standard = {
         if (code.includes("ccSpecularLight")) structCode += "vec3 ccSpecularLight;\n";
         if (code.includes("ccSpecularity")) structCode += "vec3 ccSpecularity;\n";
         if (code.includes("ccGlossiness")) structCode += "float ccGlossiness=0.9;\n";
-        if (code.includes("dSheenColor")) structCode += "vec3 dSheenColor;\n";
-        if (code.includes("dSheenGloss")) structCode += "float dSheenGloss;\n";
+        if (code.includes("sheenColor")) structCode += "vec3 sheenColor;\n";
+        if (code.includes("sheenGlossiness")) structCode += "float sheenGlossiness;\n";
+        if (code.includes("sheenDirectLight")) structCode += "vec3 sheenDirectLight;\n";
+        if (code.includes("sheenIndirectLight")) structCode += "vec3 sheenIndirectLight;\n";
+        if (code.includes("sheenAlbedoScaling")) structCode += "float sheenAlbedoScaling;\n";
 
         code = codeBegin + structCode + code;
 
