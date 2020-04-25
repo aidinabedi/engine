@@ -1550,6 +1550,7 @@ pc.programlib.standard = {
         if (code.includes("sheenDirectLight")) structCode += "vec3 sheenDirectLight;\n";
         if (code.includes("sheenIndirectLight")) structCode += "vec3 sheenIndirectLight;\n";
         if (code.includes("sheenAlbedoScaling")) structCode += "float sheenAlbedoScaling;\n";
+        if (code.includes("sheenReflection")) structCode += "vec4 sheenReflection;\n";
 
         code = codeBegin + structCode + code;
 

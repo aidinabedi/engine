@@ -12,4 +12,5 @@ void main(void) {
     #ifdef SHEEN
         sheenIndirectLight = vec3(0);
         sheenDirectLight = vec3(0);
+        sheenReflection = vec4(0);
     #endif

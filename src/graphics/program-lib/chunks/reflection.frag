@@ -6,6 +6,9 @@ void addReflection() {
     dReflection += calcReflection(dReflDirW, dGlossiness, material_reflectivity);
     #ifdef CLEARCOAT
         ccReflection += calcReflection(ccReflDirW, ccGlossiness, material_clearCoatReflectivity);
-    #endif   
+    #endif
+    #ifdef SHEEN
+        sheenReflection += calcReflection(dReflDirW, sheenGlossiness, 1.0);
+    #endif
 }
 

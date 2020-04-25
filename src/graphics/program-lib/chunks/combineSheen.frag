@@ -45,6 +45,6 @@ float getLightSheen() {
 }
 
 vec3 combineSheen() {
-    return (sheenIndirectLight + sheenDirectLight) * sheenColor;
+    return (sheenIndirectLight * sheenReflection.rgb * sheenReflection.a + sheenDirectLight) * sheenColor;
 }
 
