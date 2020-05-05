@@ -1179,7 +1179,7 @@ pc.programlib.standard = {
 
             code += "void addAmbientSheen() {\n";
             code += "    float maxAmbient = getMaxAmbientSheen();\n";
-            code += "    sheenIndirectLight = dDiffuseLight * maxAmbient;\n";
+            code += "    sheenIndirectLight = vec3(maxAmbient);\n";
             if (options.sheenAlbedoScaling) {
                 code += "    float maxColor = max(max(sheenColor.r, sheenColor.g), sheenColor.b);\n";
                 code += "    sheenAlbedoScaling = 1.0 - maxColor * maxAmbient;\n";

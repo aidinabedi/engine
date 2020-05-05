@@ -20,5 +20,7 @@ void getSheenGloss() {
     #ifdef MAPVERTEX
         sheenGlossiness *= saturate(vVertexColor.$VC);
     #endif
+
+    sheenGlossiness *= sheenGlossiness;
 }
 
