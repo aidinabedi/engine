@@ -243,7 +243,6 @@ Object.assign(pc, function () {
     });
 
     /**
-     * @private
      * @class
      * @name pc.AnimTrack
      * @classdesc AnimTrack contains a set of curve data which can be used to animate a set of target nodes.
