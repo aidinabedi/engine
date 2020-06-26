@@ -12,7 +12,6 @@ import { AnimComponentLayer } from './layer.js';
 import { AnimController } from './controller.js';
 
 /**
- * @private
  * @component Anim
  * @class
  * @name pc.AnimComponent
@@ -32,7 +31,6 @@ AnimComponent.prototype.constructor = AnimComponent;
 
 Object.assign(AnimComponent.prototype, {
     /**
-     * @private
      * @function
      * @name pc.AnimComponent#loadStateGraph
      * @description Initialises component animation controllers using the provided state graph.
@@ -104,7 +102,6 @@ Object.assign(AnimComponent.prototype, {
     },
 
     /**
-     * @private
      * @function
      * @name pc.AnimComponent#findAnimationLayer
      * @description Finds a pc.AnimComponentLayer in this component.
