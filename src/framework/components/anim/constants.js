@@ -16,5 +16,11 @@ export var ANIM_PARAMETER_FLOAT = 'FLOAT';
 export var ANIM_PARAMETER_BOOLEAN = 'BOOLEAN';
 export var ANIM_PARAMETER_TRIGGER = 'TRIGGER';
 
+/**
+ * @constant
+ * @name pc.ANIM_STATE_START
+ * @type {string}
+ * @description AnimComponent start state.
+ */
 export var ANIM_STATE_START = 'START';
 export var ANIM_STATE_END = 'END';

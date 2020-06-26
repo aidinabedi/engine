@@ -221,7 +221,6 @@ Object.defineProperties(AnimCurve.prototype, {
 });
 
 /**
- * @private
  * @class
  * @name pc.AnimTrack
  * @classdesc AnimTrack contains a set of curve data which can be used to animate a set of target nodes.
@@ -231,6 +230,7 @@ Object.defineProperties(AnimCurve.prototype, {
  * @param {pc.AnimData[]} inputs - list of curve key data.
  * @param {pc.AnimData[]} outputs - list of curve value data.
  * @param {pc.AnimCurve[]} curves - the list of curves.
+ * @property {string} name - the track name
  */
 function AnimTrack(name, duration, inputs, outputs, curves) {
     this._name = name;
